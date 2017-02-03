@@ -8,9 +8,6 @@ class MadlanSpider(scrapy.Spider):
     start_urls = ['http://www.madlan.co.il/local/%D7%9B%D7%A4%D7%A8%20%D7%A1%D7%91%D7%90']
 
     def parse(self, response):
-#    h1_tag = response.xpath('//*[@id="affixTarget"]/div[3]/div[1]/div/div/table/thead/tr/th[1]/text()').extract_first()
-#        print h1_tag
-        #rows = response.xpath('//table/tbody/tr')
         table_3 = response.xpath('//table')[3]
         rows = table_3.xpath('./tbody/tr')
         print len(rows)
@@ -18,11 +15,18 @@ class MadlanSpider(scrapy.Spider):
             item = MadlanItem()
             item['Address'] = row.xpath('./td[1]/a/text()').extract_first()
             item['Price'] = row.xpath('./td[2]/text()').extract_first()
-            #return  item
-            #request.meta['item'] = item
-            #print ("%s " % item['Address'])
+            item['Type'] = row.xpath('./td[3]/text()').extract_first()
+            item['Rooms'] = row.xpath('./td[4]/text()').extract_first()
+            item['Area'] = row.xpath('./td[5]/text()').extract_first()
+            item['Floor'] = row.xpath('./td[6]/text()').extract_first()
+            item['Seller'] = row.xpath('./td[7]/text()').extract_first()
             yield {
-                'Address' : item['Address'],
-                'Price': item['Price'],
+                'Address' : item['Address'].strip(),
+                'Price': item['Price'].strip(),
+                'Type': item['Type'].strip(),
+                'Rooms': item['Rooms'].strip(),
+                'Area': item['Area'].strip(),
+                'Floor': item['Floor'].strip(),
+                'Seller': item['Seller'].strip(),
             }
 

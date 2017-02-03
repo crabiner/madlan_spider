@@ -15,7 +15,7 @@ class MadlanItem(Item):
     Price = Field()
     Type = Field()
     Rooms = Field()
-    Space = Field()
+    Area = Field()
     Floor = Field()
     Seller = Field()
 #    pass
